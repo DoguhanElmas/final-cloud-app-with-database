@@ -51,13 +51,14 @@
                 </div>
                 <div class="card-body">{{lesson.content}} {{lesson.id}}
                 </div>
-                <button data-toggle="collapse" data-target="#collapse{{ lesson.id }}">Start Exam</button>
+                {% if lesson.question_set.all  %}
+                <button style="background-color:#32A3B8;color: white;height: 40px;" data-toggle="collapse" data-target="#collapse{{ lesson.id }}">Start Exam</button>
                 <div id="collapse{{ lesson.id }}" class="collapse">
                     {% csrf_token %}
                     
                     <form id="questionform" action="{% url 'onlinecourse:submit' course.id%}" method="post">
                         {% csrf_token %}
-{% for question in lesson.question_set.all %}
+                        {% for question in lesson.question_set.all %}
                         <div class="card mt-1">
                             <div class="card-header">
                                 <h5>{{ question.text}}</h5>
@@ -80,6 +81,7 @@
                     </form>
                     
                 </div>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
